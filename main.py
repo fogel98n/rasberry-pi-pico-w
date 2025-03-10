@@ -1,52 +1,26 @@
-import network
+# main.py
+from internet import conectarW
 import time
 import urequests
-from machine import Pin
-import onewire, ds18x20
+import random
 
-wlan = network.WLAN(network.STA_IF)
-wlan.active(True)
+# Conectar a internet
+conectarW()
 
-ssid = 'fogel'
-password = '123456789'
-wlan.connect(ssid, password)
-
-while not wlan.isconnected():
-    print("Conectando...")
-    time.sleep(1)
-
-print("Detalles de conexión:", wlan.ifconfig())
-
-API_KEY = "F3JXY98XMVNZEU9S"
-
-pin_ds18b20 = Pin(0)
-ds_sensor = ds18x20.DS18X20(onewire.OneWire(pin_ds18b20))
-roms = ds_sensor.scan()
-print("Dispositivos encontrados:", roms)
-
-led = Pin("LED", Pin.OUT)
+API_KEY = "F3JXY98XMVNZEU9S"  # Reemplaza con tu clave de API de ThingSpeak
 
 def enviar_dato(valor):
     url = f"https://api.thingspeak.com/update?api_key={API_KEY}&field1={valor}"
     try:
-        led.on()
         respuesta = urequests.get(url)
         print("Respuesta:", respuesta.text)
         respuesta.close()
     except Exception as e:
         print("Error al enviar:", e)
-    finally:
-        led.off()
 
-def leer_temperatura():
-    ds_sensor.convert_temp()
-    time.sleep_ms(750)
-    for rom in roms:
-        temp = ds_sensor.read_temp(rom)
-        print(f"Temperatura: {temp} °C")
-        return temp
-
+# Enviar datos aleatorios cada 15 segundos
 while True:
-    temperatura = leer_temperatura()
-    enviar_dato(temperatura)
-    time.sleep(15)
+    valor = random.randint(10, 100)  # Genera un número aleatorio entre 10 y 100
+    print(f"Enviando: {valor}")
+    enviar_dato(valor)
+    time.sleep(15)  # Espera 15 segundos
