@@ -1,7 +1,9 @@
+#modulos
 from internet import conectarW
 from backen import enviar_dato
+
+#dependencias
 import time
-import urequests  # Asegúrate de que esté instalado en tu entorno
 import random
 
 # Conectar a internet
