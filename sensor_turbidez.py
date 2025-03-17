@@ -1,5 +1,25 @@
+#sensor_turbidez.py
 import random
+import urequests
 
-# Simula turbidez en NTU
+url='http://45.56.113.215:3000/actualizarTurbidez'
 def leer_turbidez():
-    return round(random.uniform(0, 100), 2)
+    turbidez=round(random.uniform(0, 100), 2)
+
+    data= {'nuevoNumero':turbidez}
+    try:
+        # Realizar la solicitud POST al servidor
+        response = urequests.post(url, json=data)
+
+        # Verificar si la respuesta fue exitosa
+        if response.status_code == 200:
+            print('Turbidez enviada:', turbidez)
+        else:
+            print('Error al actualizar la turbidez:', response.status_code)
+        
+        response.close()
+
+    except Exception as e:
+        print("Error al enviar la turbidez:", e)
+
+    return turbidez  # Retornar el valor generado para que `main.py` lo use
