@@ -2,7 +2,7 @@
 import random
 import urequests
 
-url = 'http://45.56.113.215:3000/actualizarTemperatura'
+url = 'https://tilapias360.duckdns.org:3000/actualizarTemperatura'
 
 def leer_temperatura():
     # Simula temperatura en °C

@@ -2,7 +2,8 @@
 import random
 import urequests
 
-url='http://45.56.113.215:3000/actualizarOxigeno'
+url = 'https://tilapias360.duckdns.org:3000/actualizarOxigeno'
+
 def leer_oxigeno():
     oxigeno=round(random.uniform(0, 100), 2)
 

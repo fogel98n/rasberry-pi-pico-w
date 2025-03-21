@@ -2,7 +2,7 @@
 import random
 import urequests
 
-url='http://45.56.113.215:3000/actualizarTurbidez'
+url = 'https://tilapias360.duckdns.org:3000/actualizarTurbidez'
 def leer_turbidez():
     turbidez=round(random.uniform(0, 100), 2)
 
