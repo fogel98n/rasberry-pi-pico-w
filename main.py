@@ -1,30 +1,18 @@
-# main.py
+import wifi
+from firebase import Firebase
+from semaforo import Semaforo
 
-import time
-from internet import conectarW
+FIREBASE_URL_BASE = "https://raspberry-pi-pico-w-5635e-default-rtdb.firebaseio.com/"
 
-# mis sensores
-from sensor_turbidez import leer_turbidez
-from sensor_humedad import leer_temperatura
-from sensor_ph import leer_ph
-from sensor_oxigeno import leer_oxigeno
+def main():
+    if wifi.conectar_wifi():
+        sem = Semaforo()
+        fb = Firebase(FIREBASE_URL_BASE)
+        print("Iniciando ciclo del semáforo...")
+        while True:
+            sem.ciclo(firebase=fb)
+    else:
+        print("No se pudo conectar a WiFi. Terminando programa.")
 
-
-# Conexión a la red
-conectarW()
-
-while True:
-    try:
-        # Obtener los valores de los sensores
-        turbidez = leer_turbidez()
-        temperatura = leer_temperatura()
-        ph = leer_ph()
-        oxigeno=leer_oxigeno()        
-        # Imprimir valores
-        print(f"Turbidez: {turbidez}, Temperatura: {temperatura}, pH: {ph}")
-    
-    except Exception as e:
-        print("Error en el bucle principal:", e)
-    
-    time.sleep(5)
-
+if __name__ == "__main__":
+    main()
